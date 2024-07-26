@@ -31,3 +31,9 @@ def capture_screenshots(video_path, output_folder, num_screenshots=10):
     video.release()
     print(f"{num_screenshots} screenshots saved to {output_folder}")
 
+if __name__ == "__main__":
+    video_path = "File.mp4"
+    output_folder = "output_folder"
+    num_screenshots = 10
+
+    capture_screenshots(video_path, output_folder, num_screenshots)
