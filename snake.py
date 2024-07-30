@@ -15,6 +15,8 @@ class Game:
         self.background_image = self.load_image("src/bg.jpg", self.screen_width, self.screen_height)
         self.block = self.load_image("src/block.png", 50, 50)
         self.block_x, self.block_y = 100, 100
+        self.block_speed = 10
+        self.direction = None  # Add a direction attribute
 
         excluded_files = {"block.png", "bg.jpg"}
         images_paths = [os.path.join('src', file) for file in os.listdir("src") if file not in excluded_files]
@@ -56,19 +58,37 @@ class Game:
                 if event.key == pygame.K_ESCAPE:
                     return False
                 elif event.key == pygame.K_UP:
-                    self.block_y -= 10
+                    self.direction = 'UP'
                 elif event.key == pygame.K_LEFT:
-                    self.block_x -= 10
+                    self.direction = 'LEFT'
                 elif event.key == pygame.K_RIGHT:
-                    self.block_x += 10
+                    self.direction = 'RIGHT'
                 elif event.key == pygame.K_DOWN:
-                    self.block_y += 10
+                    self.direction = 'DOWN'
+            elif event.type == pygame.KEYUP:
+                if event.key in (pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT):
+                    self.direction = None  # Stop movement when key is released
         return True
+
+    def update_block_position(self):
+        if self.direction == 'UP':
+            self.block_y -= self.block_speed
+        elif self.direction == 'LEFT':
+            self.block_x -= self.block_speed
+        elif self.direction == 'RIGHT':
+            self.block_x += self.block_speed
+        elif self.direction == 'DOWN':
+            self.block_y += self.block_speed
+
+        # Ensure the block stays within the screen bounds
+        self.block_x = max(0, min(self.block_x, self.screen_width - 50))
+        self.block_y = max(0, min(self.block_y, self.screen_height - 50))
 
     def run(self):
         running = True
         while running:
             running = self.handle_events()
+            self.update_block_position()
             self.block_drawer()
 
             block_rect = self.block.get_rect(topleft=(self.block_x, self.block_y))
