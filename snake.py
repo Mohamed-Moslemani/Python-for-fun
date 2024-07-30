@@ -1,8 +1,7 @@
 import pygame
-import time
 import random
-from pygame.locals import *
 import os
+from pygame.locals import *
 
 class Game:
     def __init__(self):
@@ -22,11 +21,8 @@ class Game:
         self.images = [self.load_image(image_path, 50, 50) for image_path in images_paths]
 
         self.image_positions = [(random.randint(0, self.screen_width - 50), random.randint(0, self.screen_height - 50)) for _ in self.images]
-
-        # Debugging
-        print("Images loaded:")
-        for i, path in enumerate(images_paths):
-            print(f"{i}: {path}")
+        self.image_timers = [pygame.time.get_ticks() + random.randint(5000, 15000) for _ in self.images]
+        self.active_images = [False] * len(self.images)
 
     def load_image(self, path, width, height):
         try:
@@ -40,11 +36,13 @@ class Game:
     def block_drawer(self):
         self.surface.blit(self.background_image, (0, 0))
         self.surface.blit(self.block, (self.block_x, self.block_y))
+        current_time = pygame.time.get_ticks()
         for i, image in enumerate(self.images):
-            if image:
+            if image and self.active_images[i]:
                 self.surface.blit(image, self.image_positions[i])
-            else:
-                print(f"Image {i} is None")
+            elif current_time >= self.image_timers[i]:
+                self.active_images[i] = True
+                self.surface.blit(image, self.image_positions[i])
         pygame.display.flip()
 
     def check_collision(self, rect1, rect2):
@@ -75,9 +73,12 @@ class Game:
 
             block_rect = self.block.get_rect(topleft=(self.block_x, self.block_y))
             for i, pos in enumerate(self.image_positions):
-                image_rect = self.images[i].get_rect(topleft=pos)
-                if self.check_collision(block_rect, image_rect):
-                    print(f"Collision detected with image {i} at position {pos}!")
+                if self.active_images[i]:
+                    image_rect = self.images[i].get_rect(topleft=pos)
+                    if self.check_collision(block_rect, image_rect):
+                        print(f"Collision detected with image {i} at position {pos}!")
+                        self.active_images[i] = False
+                        self.image_timers[i] = pygame.time.get_ticks() + random.randint(5000, 15000)  # Reset timer for reappearance
 
             pygame.display.update()
             self.clock.tick(30)
