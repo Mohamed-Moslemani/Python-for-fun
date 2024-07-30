@@ -19,16 +19,32 @@ class Game:
 
         excluded_files = {"block.png", "bg.jpg"}
         images_paths = [os.path.join('src', file) for file in os.listdir("src") if file not in excluded_files]
-        self.images = [self.load_image(image_path, 10, 10) for image_path in images_paths]
+        self.images = [self.load_image(image_path, 50, 50) for image_path in images_paths]
+
+        self.image_positions = [(random.randint(0, self.screen_width - 50), random.randint(0, self.screen_height - 50)) for _ in self.images]
+
+        # Debugging
+        print("Images loaded:")
+        for i, path in enumerate(images_paths):
+            print(f"{i}: {path}")
 
     def load_image(self, path, width, height):
-        image = pygame.image.load(path).convert_alpha()
-        image = pygame.transform.scale(image, (width, height))
-        return image
+        try:
+            image = pygame.image.load(path).convert_alpha()
+            image = pygame.transform.scale(image, (width, height))
+            return image
+        except pygame.error as e:
+            print(f"Unable to load image at {path}: {e}")
+            return None
 
     def block_drawer(self):
         self.surface.blit(self.background_image, (0, 0))
         self.surface.blit(self.block, (self.block_x, self.block_y))
+        for i, image in enumerate(self.images):
+            if image:
+                self.surface.blit(image, self.image_positions[i])
+            else:
+                print(f"Image {i} is None")
         pygame.display.flip()
 
     def check_collision(self, rect1, rect2):
@@ -56,10 +72,14 @@ class Game:
         while running:
             running = self.handle_events()
             self.block_drawer()
+
+            block_rect = self.block.get_rect(topleft=(self.block_x, self.block_y))
+            for i, pos in enumerate(self.image_positions):
+                image_rect = self.images[i].get_rect(topleft=pos)
+                if self.check_collision(block_rect, image_rect):
+                    print(f"Collision detected with image {i} at position {pos}!")
+
             pygame.display.update()
-            # Check collision
-            if self.check_collision(self.block.get_rect(), self.images[0].get_rect()):
-                print("Collision detected!")
             self.clock.tick(30)
 
         pygame.quit()
