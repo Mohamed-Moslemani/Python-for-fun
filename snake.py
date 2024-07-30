@@ -19,7 +19,7 @@ class Game:
 
         excluded_files = {"block.png", "bg.jpg"}
         images_paths = [os.path.join('src', file) for file in os.listdir("src") if file not in excluded_files]
-        self.images = [self.load_image(image_path, 50, 50) for image_path in images_paths]
+        self.images = [self.load_image(image_path, 10, 10) for image_path in images_paths]
 
     def load_image(self, path, width, height):
         image = pygame.image.load(path).convert_alpha()
@@ -57,6 +57,9 @@ class Game:
             running = self.handle_events()
             self.block_drawer()
             pygame.display.update()
+            # Check collision
+            if self.check_collision(self.block.get_rect(), self.images[0].get_rect()):
+                print("Collision detected!")
             self.clock.tick(30)
 
         pygame.quit()
