@@ -65,9 +65,6 @@ class Game:
                     self.direction = 'RIGHT'
                 elif event.key == pygame.K_DOWN:
                     self.direction = 'DOWN'
-            elif event.type == pygame.KEYUP:
-                if event.key in (pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT):
-                    self.direction = None  
         return True
 
     def update_block_position(self):
