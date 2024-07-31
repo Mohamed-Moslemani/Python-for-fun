@@ -16,7 +16,7 @@ class Game:
         self.block = self.load_image("src/block.png", 50, 50)
         self.block_x, self.block_y = 100, 100
         self.block_speed = 10
-        self.direction = None  # Add a direction attribute
+        self.direction = None  
 
         excluded_files = {"block.png", "bg.jpg"}
         images_paths = [os.path.join('src', file) for file in os.listdir("src") if file not in excluded_files]
@@ -67,7 +67,7 @@ class Game:
                     self.direction = 'DOWN'
             elif event.type == pygame.KEYUP:
                 if event.key in (pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT):
-                    self.direction = None  # Stop movement when key is released
+                    self.direction = None  
         return True
 
     def update_block_position(self):
@@ -80,7 +80,6 @@ class Game:
         elif self.direction == 'DOWN':
             self.block_y += self.block_speed
 
-        # Ensure the block stays within the screen bounds
         self.block_x = max(0, min(self.block_x, self.screen_width - 50))
         self.block_y = max(0, min(self.block_y, self.screen_height - 50))
 
@@ -98,7 +97,7 @@ class Game:
                     if self.check_collision(block_rect, image_rect):
                         print(f"Collision detected with image {i} at position {pos}!")
                         self.active_images[i] = False
-                        self.image_timers[i] = pygame.time.get_ticks() + random.randint(5000, 15000)  # Reset timer for reappearance
+                        self.image_timers[i] = pygame.time.get_ticks() + random.randint(5000, 15000)  
 
             pygame.display.update()
             self.clock.tick(30)

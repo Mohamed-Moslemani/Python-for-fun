@@ -25,8 +25,8 @@ def excel_to_images(excel_path, output_dir):
         print(f'Saved {image_path}')
 
 def main():
-    pdf_path = '][.pdf'
-    excel_path = '554a07380a0b3ddf1962e930dcd2cdedfurniture.xlsx'
+    pdf_path = 'src/dd.pdf'
+    excel_path = 'src/ee.xlsx'
     output_dir = 'output_images'
     poppler_path = r'C:\poppler-24.07.0\Library\bin' 
 

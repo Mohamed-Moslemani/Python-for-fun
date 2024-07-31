@@ -32,7 +32,7 @@ def capture_screenshots(video_path, output_folder, num_screenshots=10):
     print(f"{num_screenshots} screenshots saved to {output_folder}")
 
 if __name__ == "__main__":
-    video_path = "src/a147e601-50c9-4ac7-b48b-66a1c04547be.mp4"
+    video_path = "src/File.mp4"
     output_folder = "output_folder"
     num_screenshots = 10
 
