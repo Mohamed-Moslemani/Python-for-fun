@@ -77,19 +77,19 @@ class Game:
         elif self.direction == 'DOWN':
             self.block_y += self.block_speed_y
 
-        if self.block_x <= 0 or self.block_x >= self.screen_width - 50:
-            self.block_speed_x = -self.block_speed_x
-            if self.block_x <= 0:
-                self.block_x = 0
-            else:
-                self.block_x = self.screen_width - 50
+        if self.block_x <= 0:
+            self.block_x = 0
+            self.direction = 'RIGHT'
+        elif self.block_x >= self.screen_width - 50:
+            self.block_x = self.screen_width - 50
+            self.direction = 'LEFT'
 
-        if self.block_y <= 0 or self.block_y >= self.screen_height - 50:
-            self.block_speed_y = -self.block_speed_y
-            if self.block_y <= 0:
-                self.block_y = 0
-            else:
-                self.block_y = self.screen_height - 50
+        if self.block_y <= 0:
+            self.block_y = 0
+            self.direction = 'DOWN'
+        elif self.block_y >= self.screen_height - 50:
+            self.block_y = self.screen_height - 50
+            self.direction = 'UP'
 
     def run(self):
         running = True
