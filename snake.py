@@ -15,7 +15,7 @@ class Game:
         self.background_image = self.load_image("src/bg.jpg", self.screen_width, self.screen_height)
         self.block = self.load_image("src/block.png", 50, 50)
         self.block_x, self.block_y = 100, 100
-        self.block_speed = 10
+        self.block_speed_x, self.block_speed_y = 10, 10
         self.direction = None  
 
         excluded_files = {"block.png", "bg.jpg"}
@@ -69,16 +69,27 @@ class Game:
 
     def update_block_position(self):
         if self.direction == 'UP':
-            self.block_y -= self.block_speed
+            self.block_y -= self.block_speed_y
         elif self.direction == 'LEFT':
-            self.block_x -= self.block_speed
+            self.block_x -= self.block_speed_x
         elif self.direction == 'RIGHT':
-            self.block_x += self.block_speed
+            self.block_x += self.block_speed_x
         elif self.direction == 'DOWN':
-            self.block_y += self.block_speed
+            self.block_y += self.block_speed_y
 
-        self.block_x = max(0, min(self.block_x, self.screen_width - 50))
-        self.block_y = max(0, min(self.block_y, self.screen_height - 50))
+        if self.block_x <= 0 or self.block_x >= self.screen_width - 50:
+            self.block_speed_x = -self.block_speed_x
+            if self.block_x <= 0:
+                self.block_x = 0
+            else:
+                self.block_x = self.screen_width - 50
+
+        if self.block_y <= 0 or self.block_y >= self.screen_height - 50:
+            self.block_speed_y = -self.block_speed_y
+            if self.block_y <= 0:
+                self.block_y = 0
+            else:
+                self.block_y = self.screen_height - 50
 
     def run(self):
         running = True
@@ -92,7 +103,6 @@ class Game:
                 if self.active_images[i]:
                     image_rect = self.images[i].get_rect(topleft=pos)
                     if self.check_collision(block_rect, image_rect):
-                        print(f"Collision detected with image {i} at position {pos}!")
                         self.active_images[i] = False
                         self.image_timers[i] = pygame.time.get_ticks() + random.randint(5000, 15000)  
 
