@@ -29,7 +29,13 @@ while running:
     pygame.draw.circle(window, ball_color, ball_pos, ball_radius)
     pygame.draw.rect(window, player_1, pygame.Rect(player_1_pos[0], player_1_pos[1], 10, 50))
     pygame.draw.rect(window, player_2, pygame.Rect(player_2_pos[0], player_2_pos[1], 10, 50))
+    ball_pos = (ball_pos[0] + ball_speed[0], ball_pos[1] + ball_speed[1])
+    if ball_pos[1] <= 0 or ball_pos[1] >= window_height:
+        ball_speed[1] = -ball_speed[1]
+    if ball_pos[0] <= 0 or ball_pos[0] >= window_width:
+        ball_speed[0] = -ball_speed[0]
     
+
 
     pygame.display.flip()
 
