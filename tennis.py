@@ -14,7 +14,7 @@ player_1_color = (255, 255, 255)  # White
 player_2_color = (255, 255, 255)  # White
 player_1_pos = [10, window_height // 2 - 25]
 player_2_pos = [window_width - 20, window_height // 2 - 25]
-ball_speed = [3, 3]
+ball_speed = [4, 4]
 
 ball_pos = [window_width // 2, window_height // 2]
 
@@ -23,17 +23,15 @@ player_height = 50
 player_width = 10
 clock = pygame.time.Clock()
 
-circle_radius = 50
+circle_radius = 80
 circle_color = (255, 255, 255)  # White
 circle_pos = [window_width // 2, window_height // 2]
 
-# Add a vertical line passing through the circle
 line_width = 2
 line_color = (255, 255, 255)  # White
 line_start = [window_width // 2, 0]
 line_end = [window_width // 2, window_height]
 
-# Draw the circle and line
 
 running = True
 while running:
@@ -73,8 +71,8 @@ while running:
 
     # Ball collision with left and right walls
     if ball_pos[0] <= 0 or ball_pos[0] >= window_width:
-        ball_pos = [window_width // 2, window_height // 2]  # Reset the ball position
-        ball_speed = [3, 3]  # Reset the ball speed
+        ball_pos = [window_width // 2, window_height // 2]  
+        ball_speed = [3, 3]  
 
     window.fill((0, 0, 0))
     pygame.draw.circle(window, ball_color, ball_pos, ball_radius)
