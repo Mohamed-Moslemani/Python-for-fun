@@ -23,6 +23,18 @@ player_height = 50
 player_width = 10
 clock = pygame.time.Clock()
 
+circle_radius = 50
+circle_color = (255, 255, 255)  # White
+circle_pos = [window_width // 2, window_height // 2]
+
+# Add a vertical line passing through the circle
+line_width = 2
+line_color = (255, 255, 255)  # White
+line_start = [window_width // 2, 0]
+line_end = [window_width // 2, window_height]
+
+# Draw the circle and line
+
 running = True
 while running:
     for event in pygame.event.get():
@@ -68,8 +80,9 @@ while running:
     pygame.draw.circle(window, ball_color, ball_pos, ball_radius)
     pygame.draw.rect(window, player_1_color, pygame.Rect(player_1_pos[0], player_1_pos[1], player_width, player_height))
     pygame.draw.rect(window, player_2_color, pygame.Rect(player_2_pos[0], player_2_pos[1], player_width, player_height))
-
+    pygame.draw.circle(window, circle_color, circle_pos, circle_radius,2)
+    pygame.draw.line(window, line_color, line_start, line_end, line_width)
     pygame.display.flip()
-    clock.tick(60)  # Limit the frame rate to 60 frames per second
+    clock.tick(60)  
 
 pygame.quit()
