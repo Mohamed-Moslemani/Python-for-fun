@@ -4,13 +4,10 @@ import os
 def capture_screenshots(video_path, output_folder, num_screenshots=10):
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
-
+        
     video = cv2.VideoCapture(video_path)
-
-    # Get total number of frames
     total_frames = int(video.get(cv2.CAP_PROP_FRAME_COUNT))
 
-    # Get the frames per second (fps) of the video
     fps = video.get(cv2.CAP_PROP_FPS)
 
     interval = total_frames // num_screenshots
@@ -35,5 +32,4 @@ if __name__ == "__main__":
     video_path = "src/File.mp4"
     output_folder = "output_folder"
     num_screenshots = 10
-
     capture_screenshots(video_path, output_folder, num_screenshots)
