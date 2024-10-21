@@ -8,7 +8,7 @@ WHITE = (255, 255, 255)
 FPS = 60
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Bouncing Balls")
+pygame.display.set_caption("Bouncing and Multiplying Balls")
 
 class Ball:
     def __init__(self, x, y, radius, speed_x, speed_y, color):
@@ -23,13 +23,14 @@ class Ball:
         self.x += self.speed_x
         self.y += self.speed_y
 
+        hit_wall = False
         if self.x - self.radius <= 0 or self.x + self.radius >= WIDTH:
             self.speed_x = -self.speed_x
-            return True  
+            hit_wall = True
         if self.y - self.radius <= 0 or self.y + self.radius >= HEIGHT:
             self.speed_y = -self.speed_y
-            return True  
-        return False
+            hit_wall = True
+        return hit_wall
 
     def draw(self):
         pygame.draw.circle(screen, self.color, (self.x, self.y), self.radius)
@@ -39,7 +40,8 @@ def random_color():
 
 def main():
     clock = pygame.time.Clock()
-    balls = [Ball(WIDTH // 2, HEIGHT // 2, 20, 5, 5, random_color())]  
+
+    balls = [Ball(WIDTH // 2, HEIGHT // 2, 20, 5, 5, random_color())]
 
     running = True
     while running:
@@ -51,9 +53,9 @@ def main():
 
         new_balls = []
         for ball in balls:
-            if ball.move():  
-                new_balls.append(Ball(ball.x, ball.y, ball.radius, -ball.speed_x, ball.speed_y, random_color()))
-                new_balls.append(Ball(ball.x, ball.y, ball.radius, ball.speed_x, -ball.speed_y, random_color()))
+            if ball.move(): 
+                new_balls.append(Ball(ball.x, ball.y, ball.radius, random.choice([-5, 5]), random.choice([-5, 5]), random_color()))
+                new_balls.append(Ball(ball.x, ball.y, ball.radius, random.choice([-5, 5]), random.choice([-5, 5]), random_color()))
             ball.draw()
 
         balls.extend(new_balls)
